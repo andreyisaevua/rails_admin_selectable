@@ -18,6 +18,7 @@ module RailsAdmin
             value = o.send(name)
             collection = association.klass.order(associated_model_config.object_label_method).all
             v.select_tag(name, v.options_from_collection_for_select(collection, :id, associated_model_config.object_label_method, value.try(:id)),
+                         include_blank: true,
                          onchange: "var $t = $(this); $t.before('<i class=\"fa fa-spinner fa-spin\"></i>'); $.ajax({type: 'POST', url: '#{select_path(model_name: @abstract_model, id: o.id, method: association.foreign_key)}' + '&value=' + $t.val(), data: {ajax:true}, success: function(r) { $t.prev().remove(); $t.animate({ boxShadow: '0px 0px 10px #33CC33' }, 300).animate({ boxShadow: '' }, 700) }, error: function(e) { alert(e.responseText); }}); return false;"
                         )
           end
